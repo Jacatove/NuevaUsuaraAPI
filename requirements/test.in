@@ -1,0 +1,11 @@
+# Requirements for test runs
+
+-c constraints.txt
+
+-r base.txt               # Core dependencies for this package
+
+pylint                    # PEP 8 compliance validation
+pylint-django             # Pylint plugin for Django
+pycodestyle               # PEP 8 compliance validation
+pydocstyle                # PEP 257 compliance validation
+isort                     # to standardize order of imports

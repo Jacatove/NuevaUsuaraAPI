@@ -1,0 +1,12 @@
+# Core requirements
+
+-c constraints.txt
+
+
+fastapi[standard]         # A modern, fast (high-performance), web framework for building APIs with Python based on standard Python type hints.
+SQLAlchemy                # Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
+pydantic-settings         # Settings management using Pydantic
+psycopg[binary]           # Psycopg is the most popular PostgreSQL database adapter for the Python
+PyJWT                     # JSON Web Token (JWT)
+passlib                   # Password hashing library
+alembic                   # A database migration tool for SQLAlchemy
