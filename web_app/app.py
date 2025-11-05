@@ -12,17 +12,17 @@ app = FastAPI()
 
 app.include_router(account.router)
 
-@app.get("/")
+@app.get("/{numero}")
 async def read_root(
     request: Request,
-    q: Optional[str] = None,
-    lang: Optional[str] = None,
+    numero: int,
     session_id: Optional[str] = Cookie(default=None)
 ):
     """Root app API showing query params, path, and cookies."""
     # raise Exception("F en el chat")
     # time.sleep(120)
     return {
+        "numero": numero,
         "host": request.headers.get("host"),
         "path": str(request.url.path),
         "query_params": dict(request.query_params),
