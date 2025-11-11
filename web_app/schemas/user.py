@@ -1,6 +1,5 @@
 """Schemas for User/Account."""
-from pydantic import BaseModel, EmailStr
-
+from pydantic import BaseModel, EmailStr, UUID4
 
 
 class UserCreate(BaseModel):
@@ -8,13 +7,13 @@ class UserCreate(BaseModel):
 
     email: EmailStr
     password: str
-    id_num: int
+
 
 class UserRead(BaseModel):
     """User read schema."""
 
     email: EmailStr
-    id_num: int
+    user_id: UUID4
 
     class Config:  # pylint: disable=too-few-public-methods
         """Config for UserRead."""

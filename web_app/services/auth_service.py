@@ -54,9 +54,15 @@ class AuthService:
         user.last_login = datetime.now()
         session.commit()
 
+        print(user.membership)
+        print(user.membership)
+        print(user.membership)
+        print(user.membership)
+        print(user.membership)
         access_token = create_access_token(
             data={
                 "sub": user.email,
+                "membership": user.membership.value,
             },
             expires_delta=timedelta(
                 minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
@@ -71,7 +77,7 @@ class AuthService:
     @staticmethod
     async def get_authenticated_user(
         token: Annotated[str, Depends(oauth2_scheme)],
-        session: SessionDep, 
+        session: SessionDep,
     ):
         """
         TODO: pending.

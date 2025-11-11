@@ -27,9 +27,7 @@ class UserService:
         Raises:
             HTTPException: If user already exists.
         """
-        stmt = select(User).where(
-            (User.email == user_data.email) | (User.id_num == user_data.id_num)
-        )
+        stmt = select(User).where(User.email == user_data.email)
 
         existing_user = session.scalars(stmt).first()
         if existing_user:
@@ -39,7 +37,6 @@ class UserService:
             )
 
         new_user = User(
-            id_num=user_data.id_num,
             email=user_data.email,
             hashed_password=hash_password(user_data.password),
         )

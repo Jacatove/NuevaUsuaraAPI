@@ -14,7 +14,7 @@ router = APIRouter(prefix="/account", tags=["account"])
 
 
 @router.post(
-        "/register",
+        "/signup",
         response_model=UserRead,
         status_code=status.HTTP_201_CREATED,
 )
@@ -35,7 +35,7 @@ async def register_user(
     return await UserService.create_user(session, user)
 
 
-@router.post("/token", response_model=Token)
+@router.post("/signin", response_model=Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: SessionDep,
