@@ -19,6 +19,10 @@ class Settings(BaseSettings):  # pylint: disable=too-few-public-methods
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
 
+    # OTP API
+    OTP_API_URL: str
+    OTP_API_KEY: str
+
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(  # pylint: disable=invalid-name

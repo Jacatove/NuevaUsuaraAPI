@@ -54,11 +54,6 @@ class AuthService:
         user.last_login = datetime.now()
         session.commit()
 
-        print(user.membership)
-        print(user.membership)
-        print(user.membership)
-        print(user.membership)
-        print(user.membership)
         access_token = create_access_token(
             data={
                 "sub": user.email,

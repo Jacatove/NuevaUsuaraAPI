@@ -1,37 +1,20 @@
 """App EntryPoint."""
-import time
+import json
+from typing import Annotated
 
-from fastapi import Cookie, Depends, FastAPI, Request
-from typing import Annotated, Optional
+from fastapi import Depends, FastAPI
+import requests
 
+from web_app.config import settings
 from web_app.models.user import User
 from web_app.routers import account, equipo_a
+from web_app.schemas.otp import OtpValidate
 from web_app.services.auth_service import AuthService
 
 app = FastAPI()
 
 app.include_router(account.router)
 app.include_router(equipo_a.router)
-
-# @app.get("/{numero}")
-# async def read_root(
-#     request: Request,
-#     numero: int,
-#     session_id: Optional[str] = Cookie(default=None)
-# ):
-#     """Root app API showing query params, path, and cookies."""
-#     # raise Exception("F en el chat")
-#     # time.sleep(120)
-#     return {
-#         "numero": numero,
-#         "host": request.headers.get("host"),
-#         "path": str(request.url.path),
-#         "query_params": dict(request.query_params),
-#         "cookies": request.cookies,
-#         "session_id": session_id,
-#         "message": "Welcome to my FastAPI application!"
-#     }
-
 
 
 @app.get("/whoami")
@@ -47,16 +30,43 @@ async def whoami(
 async def otp(
     current_user: Annotated[User, Depends(AuthService.get_authenticated_user)],
 ):
-    """Show user."""
-    return {
-        "url": "url-otp"
+    url = f"{settings.OTP_API_URL}/otp/register"
+    payload = json.dumps({
+        "user_id": str(current_user.user_id)
+    })
+    headers = {
+        'X-Key': settings.OTP_API_KEY,
+        'Content-Type': 'application/json'
     }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    return {
+        "otpauth_url": response.json().get("otpauth_url")
+    }
+
 
 @app.post("/confirm-otp")
 async def confirm_otp(
+    otp: OtpValidate,
     current_user: Annotated[User, Depends(AuthService.get_authenticated_user)],
 ):
-    """Show user."""
-    return {
-        "url": "confirmation"
+    url = f"{settings.OTP_API_URL}/otp/validate"
+
+    payload = json.dumps({
+        "user_id": str(current_user.user_id),
+        "code": otp.otp_code,
+    })
+
+    headers = {
+        'X-Key': settings.OTP_API_KEY,
+        'Content-Type': 'application/json'
     }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    if response.ok:
+        return True
+
+    return False
+
