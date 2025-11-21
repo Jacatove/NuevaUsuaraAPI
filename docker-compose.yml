@@ -19,7 +19,7 @@ services:
           path: .
 
   db:
-    image: postgres
+    image: postgres:17-trixie
     restart: always
     user: postgres
     volumes:
