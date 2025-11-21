@@ -10,3 +10,4 @@ psycopg[binary]           # Psycopg is the most popular PostgreSQL database adap
 PyJWT                     # JSON Web Token (JWT)
 passlib                   # Password hashing library
 alembic                   # A database migration tool for SQLAlchemy
+requests                  # http library
